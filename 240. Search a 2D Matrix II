@@ -1,0 +1,57 @@
+class Solution {
+public:
+    bool searchMatrix(vector<vector<int>>& matrix, int target) {
+        int m = matrix.size(), n = matrix[0].size();
+        int minRow = 0, maxRow = 0, minCol = 0, maxCol = 0;
+        
+        while(target > matrix[maxRow][0]) {
+            ++maxRow;
+            if (maxRow == m) {
+                --maxRow;
+                break;
+            }
+        }
+        if (target == matrix[maxRow][0]) return true;
+        
+        while(target > matrix[0][maxCol]) {
+            ++maxCol;
+            if (maxCol ==  n) {
+                --maxCol;
+                break;
+            }
+        }
+        if (target == matrix[0][maxCol]) return true;
+        
+        if (maxRow*maxCol == 0) return false;
+        
+        minRow = maxRow;
+        minCol = maxCol;
+        while (target < matrix[minRow][maxCol]) {
+            --minRow;
+            if (minRow == -1) {
+                ++minRow;
+                break;
+            }
+        }
+        if (target == matrix[minRow][maxCol]) return true;
+        
+        while (target < matrix[maxRow][minCol]) {
+            --minCol;
+            if (minCol == -1) {
+                ++minCol;
+                break;
+            }
+        }
+        if (target == matrix[maxRow][minCol]) return true;
+        
+        if ((maxRow-minRow)*(maxCol-minCol) == 0) return false;
+        
+        for (int i = minRow; i <= maxRow; ++i) {
+            for (int j = minCol; j <= maxCol; ++j) {
+                if (target == matrix[i][j]) return true;
+            }
+        }
+        
+        return false;
+    }
+};
