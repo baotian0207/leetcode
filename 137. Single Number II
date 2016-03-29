@@ -1,0 +1,31 @@
+class Solution {
+public:
+    int sol1(vector<int>& nums) {
+        map<int, int> freq;
+        for (int i = 0; i < nums.size(); ++i) {
+            if (freq.find(nums[i]) == freq.end()) {
+                freq[nums[i]] = 1;
+            } else {
+                freq[nums[i]] += 1;
+            }
+        }
+        for (map<int,int>::iterator it = freq.begin(); it != freq.end(); ++it) {
+            if (it->second < 3) {
+                return it->first;
+            }
+        }
+    }
+    int singleNumber(vector<int>& nums) {
+        int nBit, res = 0;
+        for (int i = 0; i < 32; ++i) {
+            nBit = 0;
+            for (int j = 0; j < nums.size(); ++j) {
+                nBit += (nums[j] & (1 << i)) >> i;
+            }
+            if (nBit % 3) {
+                res +=  1 << i;
+            }
+        }
+        return res;
+    }
+};
