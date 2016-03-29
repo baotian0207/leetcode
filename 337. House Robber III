@@ -1,0 +1,37 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+
+    int robLvl(TreeNode* root, int &child) {
+        if (!root) {
+            child = 0;
+            return 0;
+        }
+        int l, r;
+        int lc, rc;
+        int gchild;
+        l = robLvl(root->left, lc);
+        r = robLvl(root->right, rc);
+        child = l + r;
+        gchild = root->val + lc + rc;
+        return max(child, gchild);
+        
+        
+        
+        
+        
+    }
+
+    int rob(TreeNode* root) {
+        int child;
+        return robLvl(root, child);
+    }
+};
