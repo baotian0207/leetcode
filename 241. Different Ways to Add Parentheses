@@ -1,0 +1,55 @@
+class Solution {
+public:
+    void parse(string input, vector<int>& nums, string& opers) {
+        int num = 0;
+        for (int i = 0; i < input.size(); ++i) {
+            if (input[i] == '+' || input[i] == '-' || input[i] == '*') {
+                nums.push_back(num);
+                num = 0;
+                opers.push_back(input[i]);
+            } else {
+                num = 10*num + 1 + (input[i] - '1');
+            }
+        }
+        nums.push_back(num);
+    }
+    int calc(int a, int b, char op) {
+        if (op == '+') {
+            return (a+b);
+        } else if (op == '-') {
+            return (a-b);
+        } else if (op == '*') {
+            return (a*b);
+        }
+    }
+    
+    void findRes(vector<int>& res, vector<int> nums, string opers) {
+        vector<int> numsCopy;
+        string opersCopy;
+        if (opers.size() == 1) {
+            res.push_back(calc(nums[0], nums[1], opers[0]));
+        } else {
+            for (int i = 0; i < opers.size(); ++i) {
+                numsCopy = nums;
+                numsCopy[i] = calc(numsCopy[i], numsCopy[i+1], opersCopy[i]);
+                numsCopy.erase(numsCopy.begin() + i + 1);
+                opersCopy.erase(opersCopy.begin() + i);
+                findRes(res, numsCopy, opersCopy);
+            }
+        }
+    }
+    
+    vector<int> diffWaysToCompute(string input) {
+        vector<int> nums;
+        string opers;
+        parse(input, nums, opers);
+        //nums[0] = calc(nums[0], nums[1], opers[0]);
+        vector<int> res;
+        findRes(res, nums, opers);
+        return res;
+    }
+};
+
+
+
+
