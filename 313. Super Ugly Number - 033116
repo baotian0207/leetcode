@@ -1,0 +1,26 @@
+class Solution {
+public:
+    int nthSuperUglyNumber(int n, vector<int>& primes) {
+        int pSize = primes.size();
+        vector<int> res;
+        res.push_back(1);
+        vector<int> count(pSize, 0);
+        int cur, loc, temp;
+        for (int i = 1; i < n; ++i) {
+            int cur = INT_MAX;
+            for (int j = 0; j < pSize; ++j) {
+                temp = primes[j] * res[count[j]];
+                if (temp < cur) {
+                    cur = temp;
+                }
+            }
+            res.push_back(cur);
+            for (int j = 0; j < pSize; ++j) {
+                while ( (primes[j] * res[count[j]]) <= cur) {
+                    count[j]++;
+                }
+            }
+        }
+        return res[n-1];
+    }
+};
